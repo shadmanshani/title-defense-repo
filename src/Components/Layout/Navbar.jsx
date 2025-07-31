@@ -112,6 +112,8 @@ const Navbar = () => {
 
             {/* Navbar End */}
             <div className="navbar-end gap-2">
+
+                {/* handle dark mode light mode */}
                 <button
                     className="btn btn-ghost btn-circle"
                     onClick={handleThemeToggle}

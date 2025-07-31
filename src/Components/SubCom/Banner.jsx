@@ -132,7 +132,7 @@ const Banner = () => {
                             className="w-full max-w-md bg-transparent p-4 text-base text-black focus:outline-none"
                             autoComplete="off"
                         />
-                        <button type="submit" className="btn btn-secondary bg-green-700 border-none mr-2 text-white font-semibold">Search</button>
+                        <button type="submit" className="btn btn-primary mr-2 font-semibold">Search</button>
                         {/* Suggestions Dropdown */}
                         {showSuggestions && filteredSuggestions.length > 0 && (
                             <ul className="absolute left-0 top-full mt-1 w-full bg-white rounded shadow z-10 text-left max-h-48 overflow-auto">
