@@ -42,6 +42,7 @@ const Navbar = () => {
                             </details>
                         ) :
                         (
+                            // ------------bujhi nai--------
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
@@ -96,7 +97,12 @@ const Navbar = () => {
                         {renderMenu}
                     </ul>
                 </div>
-                <a className=" btn bg-white border-none shadow-none text-2xl font-bold tracking-tight text-gray-500">eSoLuTiOn</a>
+                <a
+                    className="btn bg-white border-none shadow-none text-2xl font-bold tracking-tight text-gray-500 cursor-pointer"
+                    onClick={() => navigate('/')}
+                >
+                    eSoLuTiOn
+                </a>
             </div>
 
             {/* Navbar Center */}

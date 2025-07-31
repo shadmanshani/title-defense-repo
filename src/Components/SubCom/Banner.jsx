@@ -81,15 +81,15 @@ const Banner = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
+        if (!search.trim()) {
+            // Do nothing if search is empty
+            return;
+        }
         let category = getCategoryByService(search.trim());
-        if (search.trim()) {
-            if (category) {
-                navigate(`/services?search=${encodeURIComponent(search.trim())}#${category.replace(/\s+/g, '-').toLowerCase()}`);
-            } else {
-                navigate(`/services?search=${encodeURIComponent(search.trim())}`);
-            }
+        if (category) {
+            navigate(`/services?search=${encodeURIComponent(search.trim())}#${category.replace(/\s+/g, '-').toLowerCase()}`);
         } else {
-            navigate('/services');
+            navigate(`/services?search=${encodeURIComponent(search.trim())}`);
         }
         setShowSuggestions(false);
     };
@@ -114,7 +114,7 @@ const Banner = () => {
             <div className="hero-overlay bg-black bg-opacity-60"></div>
             <div className="hero-content text-neutral-content text-center flex flex-col items-center w-full">
                 <div className="w-full max-w-2xl mt-[-50px] flex flex-col items-center">
-                    <h1 className="text-4xl mb-4 lg:text-6xl font-bold text-primary drop-shadow-lg">Fast & Reliable Device Repair</h1>
+                    <h1 className="text-4xl mb-4 lg:text-6xl font-bold text-blue-500 drop-shadow-lg">Fast & Reliable Device Repair</h1>
                     <p className="mb-5 text-lg lg:text-2xl text-base-200 font-medium drop-shadow text-white" >
                         We repair mobiles, laptops, mouse & keyboards, and more. Get expert service, genuine parts, and unbeatable prices—all in one place!
                     </p>
