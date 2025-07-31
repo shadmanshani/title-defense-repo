@@ -1,24 +1,163 @@
-import React from 'react';
-import banner from '../../../src/assets/Banner/banner-5250183.jpg';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import banner from '../../../src/assets/Banner/banner-1504653.png';
+
+// Service data for recommendations
+const serviceCategories = [
+    {
+        category: "Mobile Service",
+        services: [
+            { name: "Screen Replacement" },
+            { name: "Battery Replacement" },
+            { name: "Charging Port Repair" },
+            { name: "Camera Repair" },
+            { name: "Speaker/Mic Repair" },
+            { name: "Software Update" },
+            { name: "Water Damage Repair" },
+            { name: "Data Recovery" },
+        ]
+    },
+    {
+        category: "Laptop Service",
+        services: [
+            { name: "Screen Replacement" },
+            { name: "Keyboard Repair" },
+            { name: "Battery Replacement" },
+            { name: "Motherboard Repair" },
+            { name: "RAM Upgrade" },
+            { name: "SSD/HDD Replacement" },
+            { name: "Cooling Fan Repair" },
+            { name: "OS Installation" },
+        ]
+    },
+    {
+        category: "Mouse & Keyboard Service",
+        services: [
+            { name: "Mouse Sensor Repair" },
+            { name: "Button Replacement" },
+            { name: "Wireless Connectivity" },
+            { name: "Keyboard Cleaning" },
+            { name: "Key Replacement" },
+            { name: "USB Port Repair" },
+            { name: "Firmware Update" },
+            { name: "RGB Lighting Repair" },
+        ]
+    },
+    {
+        category: "Others Service",
+        services: [
+            { name: "Printer Repair" },
+            { name: "Scanner Repair" },
+            { name: "Projector Service" },
+            { name: "Speaker Repair" },
+            { name: "CCTV Installation" },
+            { name: "Networking" },
+            { name: "Accessories" },
+            { name: "Data Backup" },
+        ]
+    },
+];
+
+const allServiceNames = serviceCategories.flatMap(cat => cat.services.map(s => s.name));
 
 const Banner = () => {
+    const [search, setSearch] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const navigate = useNavigate();
+
+    const filteredSuggestions = search.trim()
+        ? allServiceNames.filter(name => name.toLowerCase().includes(search.trim().toLowerCase()))
+        : [];
+
+    const getCategoryByService = (serviceName) => {
+        for (const cat of serviceCategories) {
+            if (cat.services.some(s => s.name === serviceName)) {
+                return cat.category;
+            }
+        }
+        return null;
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        let category = getCategoryByService(search.trim());
+        if (search.trim()) {
+            if (category) {
+                navigate(`/services?search=${encodeURIComponent(search.trim())}#${category.replace(/\s+/g, '-').toLowerCase()}`);
+            } else {
+                navigate(`/services?search=${encodeURIComponent(search.trim())}`);
+            }
+        } else {
+            navigate('/services');
+        }
+        setShowSuggestions(false);
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        setSearch(suggestion);
+        setShowSuggestions(false);
+        let category = getCategoryByService(suggestion);
+        if (category) {
+            navigate(`/services?search=${encodeURIComponent(suggestion)}#${category.replace(/\s+/g, '-').toLowerCase()}`);
+        } else {
+            navigate(`/services?search=${encodeURIComponent(suggestion)}`);
+        }
+    };
+
     return (
         <div
-            className="hero h-[550px]"
+            className="hero h-[550px] md:h-[600px] lg:h-[650px]"
             style={{
                 backgroundImage: `url(${banner})`,
             }}>
-            <div className="hero-overlay bg-opacity-60"></div>
-            <div className="hero-content text-neutral-content text-center">
-                <div className="w-lg mt-[-50px] flex flex-col items-center">
-
-                    <h1 className="text-4xl mb-5 lg:text-6xl font-bold text-base-600">Hey! Your Smart Assistant</h1>
-                    <p className="mb-5 text-3xl">
-                        All your services in one place. Get what you need, whenever you need it.
+            <div className="hero-overlay bg-black bg-opacity-60"></div>
+            <div className="hero-content text-neutral-content text-center flex flex-col items-center w-full">
+                <div className="w-full max-w-2xl mt-[-50px] flex flex-col items-center">
+                    <h1 className="text-4xl mb-4 lg:text-6xl font-bold text-primary drop-shadow-lg">Fast & Reliable Device Repair</h1>
+                    <p className="mb-5 text-lg lg:text-2xl text-base-200 font-medium drop-shadow text-white" >
+                        We repair mobiles, laptops, mouse & keyboards, and more. Get expert service, genuine parts, and unbeatable prices—all in one place!
                     </p>
-                    <div className='mt-16 border flex justify-between items-center max-w-[500px] w-full rounded-md'>
-                        <input type="text" placeholder="Type here" className=" w-full max-w-md bg-transparent p-4" />
-                        <button className="btn btn-secondary bg-green-700 border-none mr-2">Search</button>
+                    <form onSubmit={handleSearch} className='relative mt-6 border flex justify-between items-center max-w-[500px] w-full rounded-md bg-white bg-opacity-80 shadow-lg'>
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={e => {
+                                setSearch(e.target.value);
+                                setShowSuggestions(true);
+                            }}
+                            onFocus={() => setShowSuggestions(true)}
+                            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                            placeholder="Search your device or service..."
+                            className="w-full max-w-md bg-transparent p-4 text-base text-black focus:outline-none"
+                            autoComplete="off"
+                        />
+                        <button type="submit" className="btn btn-secondary bg-green-700 border-none mr-2 text-white font-semibold">Search</button>
+                        {/* Suggestions Dropdown */}
+                        {showSuggestions && filteredSuggestions.length > 0 && (
+                            <ul className="absolute left-0 top-full mt-1 w-full bg-white rounded shadow z-10 text-left max-h-48 overflow-auto">
+                                {filteredSuggestions.map((suggestion, idx) => (
+                                    <li
+                                        key={idx}
+                                        className="px-4 py-2 cursor-pointer hover:bg-primary/10 text-black"
+                                        onMouseDown={() => handleSuggestionClick(suggestion)}
+                                    >
+                                        {suggestion}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </form>
+                    {/* Offer/Discount Section */}
+                    <div className="mt-8 w-full flex flex-col md:flex-row items-center justify-center gap-4">
+                        <div className="bg-primary text-white px-6 py-3 rounded-lg shadow-lg font-semibold text-lg animate-pulse">
+                            20% OFF on First Repair!
+                        </div>
+                        <div className="bg-base-200 text-base-content px-6 py-3 rounded-lg shadow font-medium text-base">
+                            Free Diagnosis for All Devices
+                        </div>
+                        <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow font-medium text-base">
+                            Combo Offer: Repair 2 Devices, Get 1 Accessory Free!
+                        </div>
                     </div>
                 </div>
             </div>

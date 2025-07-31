@@ -28,11 +28,11 @@ const Navbar = () => {
                     {item.children ?
                         (
                             <details>
-                                <summary>{item.name}</summary>
+                                <summary className="text-blue-700 hover:text-blue-500">{item.name}</summary>
                                 <ul className="p-2">
                                     {item.children.map((child, idx) => (
                                         <li key={idx} onClick={child.action}>
-                                            <a>{child.name}</a>
+                                            <a className="text-blue-600 hover:text-blue-400">{child.name}</a>
                                         </li>
                                     ))}
                                 </ul>
@@ -44,8 +44,8 @@ const Navbar = () => {
                                 className={({ isActive }) =>
                                     `transition-transform duration-200 px-3 py-1 rounded-lg font-medium ${
                                         isActive
-                                            ? 'text-primary bg-primary/10'
-                                            : 'text-base-content hover:text-primary hover:bg-primary/10'
+                                            ? 'text-blue-700 bg-blue-100'
+                                            : 'text-blue-600 hover:text-blue-400 hover:bg-blue-50'
                                     } hover:scale-110`
                                 }
                             >
@@ -58,7 +58,7 @@ const Navbar = () => {
     )
 
     return (
-        <div className="navbar bg-neutral text-neutral-content shadow-md sticky top-0 z-50 py-3">
+        <div className="navbar bg-white text-neutral-content shadow-md sticky top-0 z-50 py-3">
             {/* Navbar Start */}
             <div className="navbar-start">
                 <div className="dropdown">
@@ -85,7 +85,7 @@ const Navbar = () => {
                         {renderMenu}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-2xl font-bold tracking-tight">eSoLuTiOn</a>
+                <a className=" btn bg-white border-none shadow-none text-2xl font-bold tracking-tight text-gray-500">eSoLuTiOn</a>
             </div>
 
             {/* Navbar Center */}
@@ -95,8 +95,8 @@ const Navbar = () => {
 
             {/* Navbar End */}
             <div className="navbar-end gap-2">
-                <button className="btn btn-outline btn-success">LogIn</button>
-                <button className="btn btn-outline btn-warning">Register</button>
+                <button className="btn btn-outline btn-success px-6">LogIn</button>
+                <button className="btn btn-outline btn-primary">Register</button>
             </div>
         </div>
     )

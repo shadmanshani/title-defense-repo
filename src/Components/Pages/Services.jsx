@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const serviceCategories = [
     {
@@ -55,7 +56,30 @@ const serviceCategories = [
     },
 ];
 
+const tabList = serviceCategories.map((cat) => cat.category);
 const Services = () => {
+    const [activeTab, setActiveTab] = useState(tabList[0]);
+    const activeCategory = serviceCategories.find(cat => cat.category === activeTab);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash) {
+            const hashCategory = location.hash.replace('#', '').replace(/-/g, ' ');
+            const found = serviceCategories.find(cat => cat.category.toLowerCase() === hashCategory.replace(/\s+/g, ' ').toLowerCase());
+            if (found) setActiveTab(found.category);
+        }
+    }, [location.hash]);
+
+    const handleSeeMore = (category) => {
+        navigate(`/services#${category.replace(/\s+/g, '-').toLowerCase()}`);
+        // If already on /services, scroll to the section
+        setTimeout(() => {
+            const el = document.getElementById(category.replace(/\s+/g, '-').toLowerCase());
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    };
+
     return (
         <section className="py-12 bg-base-100">
             <div className="max-w-7xl mx-auto px-4">
@@ -63,27 +87,42 @@ const Services = () => {
                     <h2 className="text-4xl font-bold text-primary mb-2">Our Services</h2>
                     <p className="text-base-content text-lg">We offer a wide range of repair services for all your devices</p>
                 </div>
-                <div className="space-y-16">
-                    {serviceCategories.map((cat, i) => (
-                        <div key={i}>
-                            <h3 className="text-2xl font-bold text-secondary mb-6 text-center">{cat.category}</h3>
-                            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                                {cat.services.map((service, idx) => (
-                                    <div key={idx} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
-                                        <div className="card-body items-center text-center">
-                                            <img src={service.image} alt={service.name + ' image'} className="rounded-xl mb-3 w-[200px] h-[200px] object-cover" />
-                                            {/* <div className="mb-4">{service.icon}</div> */}
-                                            <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
-                                            <p className="text-base-content text-sm">{service.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="flex justify-center mt-6">
-                                <button className="btn btn-outline btn-primary">See More</button>
-                            </div>
-                        </div>
+                {/* Tabs */}
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                    {tabList.map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-5 py-2 rounded-t-lg font-semibold border-b-2 transition-colors duration-200 focus:outline-none ${activeTab === tab
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-base-200 text-base-content border-transparent hover:bg-primary/10'
+                                }`}
+                        >
+                            {tab}
+                        </button>
                     ))}
+                </div>
+                {/* Active Tab Content */}
+                <div id={activeCategory.category.replace(/\s+/g, '-').toLowerCase()}>
+                    <h3 className="text-2xl font-bold text-secondary mb-8 text-left">{activeCategory.category}</h3>
+                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+                        {activeCategory.services.map((service, idx) => (
+                            <div key={idx} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
+                                <div className="card-body items-center text-center">
+                                    <img src={service.image} alt={service.name + ' image'} className="rounded-xl mb-3 w-[300px] h-[200px] object-cover" />
+                                    {/* <div className="mb-4">{service.icon}</div> */}
+                                    <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
+                                    <p className="text-base-content text-sm">{service.desc}</p>
+                                    <div className="mt-3">
+                                        <button className="btn btn-outline btn-primary">Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-center mt-12">
+                        <button className="btn btn-outline btn-secondary" onClick={() => handleSeeMore(activeCategory.category)}>See More</button>
+                    </div>
                 </div>
             </div>
         </section>
