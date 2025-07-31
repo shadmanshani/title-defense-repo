@@ -1,5 +1,8 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+// Font Awesome imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -57,6 +60,14 @@ const Navbar = () => {
         </>
     )
 
+    // Theme toggle handler
+    const [theme, setTheme] = React.useState('light');
+    const handleThemeToggle = () => {
+        const newTheme = theme === 'light' ? 'night' : 'light';
+        setTheme(newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+    };
+
     return (
         <div className="navbar bg-white text-neutral-content shadow-md sticky top-0 z-50 py-3">
             {/* Navbar Start */}
@@ -95,6 +106,17 @@ const Navbar = () => {
 
             {/* Navbar End */}
             <div className="navbar-end gap-2">
+                <button
+                    className="btn btn-ghost btn-circle"
+                    onClick={handleThemeToggle}
+                    aria-label="Toggle Night/Light Mode"
+                >
+                    {theme === 'light' ? (
+                        <FontAwesomeIcon icon={faSun} className="h-6 w-6 text-yellow-400" />
+                    ) : (
+                        <FontAwesomeIcon icon={faMoon} className="h-6 w-6 text-blue-300" />
+                    )}
+                </button>
                 <button className="btn btn-outline btn-success px-6">LogIn</button>
                 <button className="btn btn-outline btn-primary">Register</button>
             </div>

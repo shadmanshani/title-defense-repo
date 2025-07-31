@@ -58,7 +58,8 @@ const serviceCategories = [
     },
 ];
 
-const allServiceNames = serviceCategories.flatMap(cat => cat.services.map(s => s.name));
+// Replace flatMap with map + flat
+const allServiceNames = serviceCategories.map(cat => cat.services.map(s => s.name)).flat();
 
 const Banner = () => {
     const [search, setSearch] = useState('');
