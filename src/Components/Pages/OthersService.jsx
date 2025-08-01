@@ -1,0 +1,147 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Others Service Images (using laptop screen as placeholder for some)
+import Lscreen from '../../../src/assets/laptop/Lscreen.jpg'
+
+const OthersService = () => {
+    const navigate = useNavigate();
+
+    const othersServices = [
+        { name: "Printer Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect width="18" height="14" x="3" y="7" rx="2" /><path d="M7 7V3h10v4" /></svg>, desc: "Repair and maintenance for all printers.", price: "৳800 - ৳3,000" },
+        { name: "Scanner Repair", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80", icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="8" width="16" height="8" rx="2" /></svg>, desc: "Fix scanner hardware and software issues.", price: "৳600 - ৳2,500" },
+        { name: "Projector Service", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8" /></svg>, desc: "Projector cleaning and lamp replacement.", price: "৳1,500 - ৳5,000" },
+        { name: "Speaker Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="8" width="16" height="8" rx="2" /></svg>, desc: "Fix speaker sound and connectivity issues.", price: "৳400 - ৳2,000" },
+        { name: "CCTV Installation", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8" /></svg>, desc: "Install and configure CCTV systems.", price: "৳2,000 - ৳10,000" },
+        { name: "Networking", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M2 12a10 10 0 0120 0" /></svg>, desc: "Network setup and troubleshooting.", price: "৳500 - ৳3,000" },
+        { name: "Accessories", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80", icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Chargers, cables, and other accessories.", price: "৳200 - ৳1,500" },
+        { name: "Data Backup", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 12h8" /></svg>, desc: "Backup important data securely.", price: "৳300 - ৳1,000" },
+    ];
+
+    const handleBookNow = (serviceName) => {
+        navigate('/booking', { state: { service: serviceName, category: 'Others Service' } });
+    };
+
+    const handleGetDiagnosis = () => {
+        navigate('/diagnosis', { state: { category: 'Others Service' } });
+    };
+
+    return (
+        <div className="min-h-screen bg-base-200">
+            {/* Hero Section */}
+            <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white pt-24 pb-16">
+                <div className="container mx-auto px-4 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">Other Tech Services</h1>
+                    <p className="text-xl mb-8">Complete solutions for all your technology needs</p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button 
+                            onClick={handleGetDiagnosis}
+                            className="btn btn-warning btn-lg px-8"
+                        >
+                            🔍 Check Device
+                        </button>
+                        <button 
+                            onClick={() => navigate('/booking')}
+                            className="btn btn-success btn-lg px-8"
+                        >
+                            📞 Get Quote
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Services Grid */}
+            <div className="container mx-auto px-4 py-12">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold text-base-content mb-4">Additional Tech Services</h2>
+                    <p className="text-base-content/70 max-w-2xl mx-auto">
+                        Beyond mobile and laptop repairs, we offer comprehensive solutions for 
+                        printers, projectors, networking, and more.
+                    </p>
+                </div>
+
+                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+                    {othersServices.map((service, index) => (
+                        <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
+                            <div className="card-body items-center text-center">
+                                <img 
+                                    src={service.image} 
+                                    alt={service.name}
+                                    className="rounded-xl mb-3 w-[300px] h-[200px] object-cover"
+                                />
+                                <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
+                                <p className="text-base-content text-sm mb-3">{service.desc}</p>
+                                <div className="flex justify-between items-center mb-4 w-full">
+                                    <span className="text-lg font-bold text-green-600">{service.price}</span>
+                                    <span className="text-sm text-base-content/60">⏱️ 1-3 hours</span>
+                                </div>
+                                
+                                <div className="flex gap-2 w-full">
+                                    <button 
+                                        onClick={() => handleBookNow(service.name)}
+                                        className="btn btn-primary btn-sm flex-1"
+                                    >
+                                        Book Now
+                                    </button>
+                                    <button 
+                                        onClick={handleGetDiagnosis}
+                                        className="btn btn-outline btn-sm"
+                                    >
+                                        Check
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Service Categories */}
+            <div className="bg-base-100 py-16 rounded-lg mx-4">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-bold text-center text-base-content mb-12">Service Categories</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="text-center">
+                            <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="h-8 w-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2 text-base-content">Office Equipment</h3>
+                            <p className="text-base-content/70">Printers, scanners, and office devices</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2 text-base-content">Audio/Visual</h3>
+                            <p className="text-base-content/70">Projectors, speakers, and AV equipment</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.111 16.404a5.5 5.5 0 717.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2 text-base-content">Networking</h3>
+                            <p className="text-base-content/70">WiFi setup, routers, and network solutions</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2 text-base-content">Data Services</h3>
+                            <p className="text-base-content/70">Data backup, recovery, and migration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default OthersService;

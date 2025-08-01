@@ -6,21 +6,36 @@ import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
     const navigate = useNavigate()
+    const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 
     const go = () => {
         console.log('goto dhaka')
     }
 
+    // Function to close dropdown when submenu item is clicked
+    const handleSubmenuClick = (path) => {
+        setIsDropdownOpen(false)
+        // Close the details element
+        const detailsElements = document.querySelectorAll('details[open]')
+        detailsElements.forEach(details => details.removeAttribute('open'))
+        navigate(path)
+    }
+
     const menuLinks = [
         { name: 'Home', path: '/' },
-        { name: 'Services', path: '/services' },
-        // {
-        //     name: 'Parent',
-        //     children: [
-        //         { name: 'Submenu 1', action: () => go() },
-        //         { name: 'Submenu 2', action: () => console.log('Clicked Submenu 2') },
-        //     ],
-        // },
+        { 
+            name: 'Services', 
+            children: [
+                { name: 'Mobile Repair', path: '/services/mobile' },
+                { name: 'Laptop Repair', path: '/services/laptop' },
+                { name: 'Mouse & Keyboard', path: '/services/mouse-keyboard' },
+                { name: 'Other Services', path: '/services/others' },
+                { name: 'View All Services', path: '/services' }
+            ]
+        },
+        { name: 'Get Diagnosis', path: '/diagnosis' },
+        { name: 'Book Repair', path: '/booking' },
+        { name: 'Track Order', path: '/track' },
         { name: 'Location', path: '/location' },
     ]
 
@@ -34,8 +49,22 @@ const Navbar = () => {
                                 <summary className="text-blue-700 hover:text-blue-500">{item.name}</summary>
                                 <ul className="p-2">
                                     {item.children.map((child, idx) => (
-                                        <li key={idx} onClick={child.action}>
-                                            <a className="text-blue-600 hover:text-blue-400">{child.name}</a>
+                                        <li key={idx}>
+                                            {child.path ? (
+                                                <a
+                                                 onClick={() => handleSubmenuClick(child.path)}
+                                                 className="text-blue-600 hover:text-blue-400 block px-2 py-1 rounded cursor-pointer"
+                                             >
+                                                 {child.name}
+                                             </a>
+                                            ) : (
+                                                <a 
+                                                    onClick={child.action}
+                                                    className="text-blue-600 hover:text-blue-400 block px-2 py-1 rounded cursor-pointer"
+                                                >
+                                                    {child.name}
+                                                </a>
+                                            )}
                                         </li>
                                     ))}
                                 </ul>
@@ -112,7 +141,6 @@ const Navbar = () => {
 
             {/* Navbar End */}
             <div className="navbar-end gap-2">
-
                 {/* handle dark mode light mode */}
                 <button
                     className="btn btn-ghost btn-circle"
@@ -125,8 +153,11 @@ const Navbar = () => {
                         <FontAwesomeIcon icon={faMoon} className="h-6 w-6 text-blue-300" />
                     )}
                 </button>
-                <button className="btn btn-outline btn-success px-6">LogIn</button>
-                <button className="btn btn-outline btn-primary">Register</button>
+                {/* Login/Register only on large screens */}
+                <div className="hidden lg:flex gap-2">
+                    <button className="btn btn-outline btn-success px-6">LogIn</button>
+                    <button className="btn btn-outline btn-primary">Register</button>
+                </div>
             </div>
         </div>
     )

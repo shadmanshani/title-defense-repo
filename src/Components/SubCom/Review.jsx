@@ -60,7 +60,7 @@ const Review = () => {
     return (
         <section className="py-12 bg-base-100">
             <div className="max-w-5xl mx-auto px-4">
-                <h2 className="text-3xl font-bold text-primary mb-8 text-center">Customer Reviews</h2>
+                <h2 className="text-3xl font-bold text-primary mb-16 text-center">Customer Reviews</h2>
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Review Form - Left Side */}
                     <form onSubmit={handleSubmit} className="bg-base-200 rounded-lg p-6 shadow flex flex-col gap-4 md:w-1/2 w-full">
