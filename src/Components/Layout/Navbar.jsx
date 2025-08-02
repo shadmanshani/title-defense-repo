@@ -3,9 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom'
 // Font Awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../Context/AuthContext';
 
 const Navbar = () => {
     const navigate = useNavigate()
+    const { isAuthenticated, logout } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 
     const go = () => {
@@ -18,10 +20,16 @@ const Navbar = () => {
         // Close the details element
         const detailsElements = document.querySelectorAll('details[open]')
         detailsElements.forEach(details => details.removeAttribute('open'))
+        // Close the dropdown menu
+        const dropdown = document.querySelector('.dropdown');
+        if (dropdown) {
+            dropdown.blur();
+        }
         navigate(path)
     }
 
-    const menuLinks = [
+    // Define all menu links
+    const allMenuLinks = [
         { name: 'Home', path: '/' },
         { 
             name: 'Services', 
@@ -37,7 +45,21 @@ const Navbar = () => {
         { name: 'Book Repair', path: '/booking' },
         { name: 'Track Order', path: '/track' },
         { name: 'Location', path: '/location' },
-    ]
+    ];
+
+    // Filter menu links based on authentication status
+    const menuLinks = allMenuLinks.filter(link => {
+        // Always show Home, Services, Get Diagnosis, and Book Repair
+        if (['Home', 'Services', 'Get Diagnosis', 'Book Repair'].includes(link.name)) {
+            return true;
+        }
+        // Only show Track Order and Location for authenticated users
+        if (['Track Order', 'Location'].includes(link.name)) {
+            return isAuthenticated;
+        }
+        // Show all other links by default
+        return true;
+    });
 
     const renderMenu = (
         <>
@@ -71,7 +93,6 @@ const Navbar = () => {
                             </details>
                         ) :
                         (
-                            // ------------bujhi nai--------
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
@@ -96,6 +117,12 @@ const Navbar = () => {
         const newTheme = theme === 'light' ? 'night' : 'light';
         setTheme(newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
+    };
+
+    const handleLogout = () => {
+        logout();
+        // Navigate to home page after logout
+        navigate('/');
     };
 
     return (
@@ -124,6 +151,17 @@ const Navbar = () => {
                         className="menu menu-sm dropdown-content bg-neutral text-neutral-content rounded-box z-[1] mt-3 w-52 p-2 shadow text-base"
                     >
                         {renderMenu}
+                        {/* Authentication buttons for mobile menu */}
+                        <div className="lg:hidden flex flex-col gap-2 mt-2 pt-2 border-t border-gray-600">
+                            {isAuthenticated ? (
+                                <button className="btn btn-outline btn-error" onClick={handleLogout}>Logout</button>
+                            ) : (
+                                <>
+                                    <button className="btn btn-outline btn-success" onClick={() => { navigate('/login'); setIsDropdownOpen(false); }}>LogIn</button>
+                                    <button className="btn btn-outline btn-primary" onClick={() => { navigate('/register'); setIsDropdownOpen(false); }}>Register</button>
+                                </>
+                            )}
+                        </div>
                     </ul>
                 </div>
                 <a
@@ -153,10 +191,16 @@ const Navbar = () => {
                         <FontAwesomeIcon icon={faMoon} className="h-6 w-6 text-blue-300" />
                     )}
                 </button>
-                {/* Login/Register only on large screens */}
+                {/* Authentication buttons only on large screens */}
                 <div className="hidden lg:flex gap-2">
-                    <button className="btn btn-outline btn-success px-6">LogIn</button>
-                    <button className="btn btn-outline btn-primary">Register</button>
+                    {isAuthenticated ? (
+                        <button className="btn btn-outline btn-error" onClick={handleLogout}>Logout</button>
+                    ) : (
+                        <>
+                            <button className="btn btn-outline btn-success px-6" onClick={() => navigate('/login')}>LogIn</button>
+                            <button className="btn btn-outline btn-primary" onClick={() => navigate('/register')}>Register</button>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

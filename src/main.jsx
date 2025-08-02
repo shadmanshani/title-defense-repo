@@ -18,6 +18,10 @@ import MobileRepair from './Components/Pages/MobileRepair';
 import LaptopRepair from './Components/Pages/LaptopRepair';
 import MouseKeyboard from './Components/Pages/MouseKeyboard';
 import OthersService from './Components/Pages/OthersService';
+import Login from './Components/Pages/Login';
+import Register from './Components/Pages/Register';
+import { AuthProvider } from './Components/Context/AuthContext';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -62,14 +66,24 @@ const router = createBrowserRouter([
       {
         path: '/services/others',
         element: <OthersService></OthersService>
+      },
+      {
+        path: '/login',
+        element: <Login></Login>
+      },
+      {
+        path: '/register',
+        element: <Register></Register>
       }
     ]
   },
 ]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <HeroUIProvider>
-      <RouterProvider router={router} />
-    </HeroUIProvider>
+    <AuthProvider>
+      <HeroUIProvider>
+        <RouterProvider router={router} />
+      </HeroUIProvider>
+    </AuthProvider>
   </StrictMode>,
 )
