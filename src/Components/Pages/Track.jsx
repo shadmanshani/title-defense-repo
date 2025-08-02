@@ -244,6 +244,50 @@ const Track = () => {
                 { step: 5, title: 'Quality Check', completed: false, date: null },
                 { step: 6, title: 'Ready for Pickup', completed: false, date: null }
             ]
+        },
+        
+        // Booking Orders (BK prefix) - These are new bookings from Booking page
+        'BK001234': {
+            id: 'BK001234',
+            service: 'Mobile Screen Replacement',
+            device: 'iPhone 12 Pro',
+            status: 'Booking Confirmed',
+            currentStep: 0,
+            estimatedCompletion: '2024-01-20',
+            cost: '৳200 (Diagnosis)',
+            technician: 'To be assigned',
+            createdAt: '2024-01-19',
+            isBooking: true,
+            steps: [
+                { step: 0, title: 'Booking Confirmed', completed: true, date: '2024-01-19' },
+                { step: 1, title: 'Order Received', completed: false, date: null },
+                { step: 2, title: 'Diagnosis Complete', completed: false, date: null },
+                { step: 3, title: 'Parts Ordered', completed: false, date: null },
+                { step: 4, title: 'Repair in Progress', completed: false, date: null },
+                { step: 5, title: 'Quality Check', completed: false, date: null },
+                { step: 6, title: 'Ready for Pickup', completed: false, date: null }
+            ]
+        },
+        'BK567890': {
+            id: 'BK567890',
+            service: 'Laptop Battery Replacement',
+            device: 'HP Pavilion 15',
+            status: 'Booking Confirmed',
+            currentStep: 0,
+            estimatedCompletion: '2024-01-22',
+            cost: '৳300 (Diagnosis + Pickup)',
+            technician: 'To be assigned',
+            createdAt: '2024-01-18',
+            isBooking: true,
+            steps: [
+                { step: 0, title: 'Booking Confirmed', completed: true, date: '2024-01-18' },
+                { step: 1, title: 'Order Received', completed: false, date: null },
+                { step: 2, title: 'Diagnosis Complete', completed: false, date: null },
+                { step: 3, title: 'Parts Ordered', completed: false, date: null },
+                { step: 4, title: 'Repair in Progress', completed: false, date: null },
+                { step: 5, title: 'Quality Check', completed: false, date: null },
+                { step: 6, title: 'Ready for Pickup', completed: false, date: null }
+            ]
         }
     };
 
@@ -272,6 +316,7 @@ const Track = () => {
 
     const getStatusColor = (status) => {
         switch (status) {
+            case 'Booking Confirmed': return 'text-purple-600';
             case 'Order Received': return 'text-blue-600';
             case 'In Progress': return 'text-yellow-600';
             case 'Ready for Pickup': return 'text-green-600';
@@ -446,26 +491,51 @@ const Track = () => {
                             <h3 className="text-2xl font-bold text-base-content mb-4">Demo Order IDs</h3>
                             <p className="text-base-content/70 mb-6">Try these sample Order IDs to see the tracking system in action:</p>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="card bg-base-200 shadow">
-                                    <div className="card-body items-center text-center py-4">
-                                        <h4 className="font-bold">ORD001</h4>
-                                        <p className="text-sm text-base-content/70">Mobile Screen Repair</p>
-                                        <div className="badge badge-warning">In Progress</div>
+                            {/* Booking Orders */}
+                            <div className="mb-6">
+                                <h4 className="text-lg font-semibold text-base-content mb-3">📅 Recent Bookings (from Booking Page):</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="card bg-purple-50 dark:bg-purple-900/20 shadow border border-purple-200 dark:border-purple-700">
+                                        <div className="card-body items-center text-center py-4">
+                                            <h4 className="font-bold text-purple-700 dark:text-purple-300">BK001234</h4>
+                                            <p className="text-sm text-base-content/70">Mobile Screen Repair</p>
+                                            <div className="badge badge-secondary">Booking Confirmed</div>
+                                        </div>
+                                    </div>
+                                    <div className="card bg-purple-50 dark:bg-purple-900/20 shadow border border-purple-200 dark:border-purple-700">
+                                        <div className="card-body items-center text-center py-4">
+                                            <h4 className="font-bold text-purple-700 dark:text-purple-300">BK567890</h4>
+                                            <p className="text-sm text-base-content/70">Laptop Battery Repair</p>
+                                            <div className="badge badge-secondary">Booking Confirmed</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="card bg-base-200 shadow">
-                                    <div className="card-body items-center text-center py-4">
-                                        <h4 className="font-bold">ORD002</h4>
-                                        <p className="text-sm text-base-content/70">Laptop Battery</p>
-                                        <div className="badge badge-success">Ready</div>
+                            </div>
+                            
+                            {/* Repair Orders */}
+                            <div>
+                                <h4 className="text-lg font-semibold text-base-content mb-3">🔧 Active Repair Orders:</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="card bg-base-200 shadow">
+                                        <div className="card-body items-center text-center py-4">
+                                            <h4 className="font-bold">ORD001</h4>
+                                            <p className="text-sm text-base-content/70">Mobile Screen Repair</p>
+                                            <div className="badge badge-warning">In Progress</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="card bg-base-200 shadow">
-                                    <div className="card-body items-center text-center py-4">
-                                        <h4 className="font-bold">ORD003</h4>
-                                        <p className="text-sm text-base-content/70">Mouse Repair</p>
-                                        <div className="badge badge-info">Received</div>
+                                    <div className="card bg-base-200 shadow">
+                                        <div className="card-body items-center text-center py-4">
+                                            <h4 className="font-bold">ORD002</h4>
+                                            <p className="text-sm text-base-content/70">Mobile Battery</p>
+                                            <div className="badge badge-success">Ready</div>
+                                        </div>
+                                    </div>
+                                    <div className="card bg-base-200 shadow">
+                                        <div className="card-body items-center text-center py-4">
+                                            <h4 className="font-bold">ORD003</h4>
+                                            <p className="text-sm text-base-content/70">Mobile Camera</p>
+                                            <div className="badge badge-info">Received</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
