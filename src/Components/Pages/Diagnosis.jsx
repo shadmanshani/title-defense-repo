@@ -2,32 +2,32 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // ==========Mobile Picture===========
-import screen from '../../../src/assets/mobile/screen.jpg'
-import battery from '../../../src/assets/mobile/battery.jpg'
-import mport from '../../../src/assets/mobile/mport.jpg'
-import speaker from '../../../src/assets/mobile/speaker.jpg'
-import motherb from '../../../src/assets/mobile/motherb.jpg'
-import camera from '../../../src/assets/mobile/camera.jpg'
-import repair from '../../../src/assets/mobile/repair.jpg'
+import screen from '../../assets/mobile/screen.jpg'
+import battery from '../../assets/mobile/battery.jpg'
+import mport from '../../assets/mobile/mport.jpg'
+import speaker from '../../assets/mobile/speaker.jpg'
+import motherb from '../../assets/mobile/motherb.jpg'
+import camera from '../../assets/mobile/camera.jpg'
+import repair from '../../assets/mobile/repair.jpg'
 
 // ============Laptop Picture==========
-import Lscreen from '../../../src/assets/laptop/Lscreen.jpg'
-import Lkeyboard from '../../../src/assets/laptop/Lkeybord.jpg'
-import Lbattery from '../../../src/assets/laptop/Lbattery.jpg'
-import mBoard from '../../../src/assets/laptop/mBoard.jpg'
-import ram from '../../../src/assets/laptop/ram.jpg'
-import ssd from '../../../src/assets/laptop/ssd.jpg'
-import fan from '../../../src/assets/laptop/fan.jpg'
-import os from '../../../src/assets/laptop/os.jpeg'
+import Lscreen from '../../assets/laptop/Lscreen.jpg'
+import Lkeyboard from '../../assets/laptop/Lkeybord.jpg'
+import Lbattery from '../../assets/laptop/Lbattery.jpg'
+import mBoard from '../../assets/laptop/mBoard.jpg'
+import ram from '../../assets/laptop/ram.jpg'
+import ssd from '../../assets/laptop/ssd.jpg'
+import fan from '../../assets/laptop/fan.jpg'
+import os from '../../assets/laptop/os.jpeg'
 
 // ===========Mouse & Keyboard Service============
-import sensor from '../../../src/assets/k_mouse/sensor.jpg'
-import button from '../../../src/assets/k_mouse/button.jpg'
-import wireless from '../../../src/assets/k_mouse/wireless.jpg'
-import clean from '../../../src/assets/k_mouse/clean.jpg'
-import usb from '../../../src/assets/k_mouse/usb.jpg'
-import wheel from '../../../src/assets/k_mouse/wheel.jpeg'
-import rgb from '../../../src/assets/k_mouse/rgb.jpg'
+import sensor from '../../assets/k_mouse/sensor.jpg'
+import button from '../../assets/k_mouse/button.jpg'
+import wireless from '../../assets/k_mouse/wireless.jpg'
+import clean from '../../assets/k_mouse/clean.jpg'
+import usb from '../../assets/k_mouse/usb.jpg'
+import wheel from '../../assets/k_mouse/wheel.jpeg'
+import rgb from '../../assets/k_mouse/rgb.jpg'
 
 const Diagnosis = () => {
     const navigate = useNavigate();
@@ -48,6 +48,7 @@ const Diagnosis = () => {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisResult, setAnalysisResult] = useState(null);
     const [diagnosisId, setDiagnosisId] = useState('');
+    const [currentStep, setCurrentStep] = useState(1);
 
     // Service Categories Data
     const serviceCategories = [
@@ -101,6 +102,16 @@ const Diagnosis = () => {
                 { name: "Speaker Repair", image: `${speaker}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" /></svg>, desc: "Fix audio and speaker systems." },
             ]
         }
+    ];
+
+    // Device types for selection
+    const deviceTypes = [
+        { id: 'mobile', name: 'Mobile Phone', icon: '📱' },
+        { id: 'laptop', name: 'Laptop', icon: '💻' },
+        { id: 'tablet', name: 'Tablet', icon: '📟' },
+        { id: 'mouse', name: 'Mouse', icon: '🖱️' },
+        { id: 'keyboard', name: 'Keyboard', icon: '⌨️' },
+        { id: 'other', name: 'Other Device', icon: '🔧' }
     ];
 
     // Common issues by device type
@@ -184,12 +195,12 @@ const Diagnosis = () => {
 
     const handleStartDiagnosis = () => {
         setIsAnalyzing(true);
-        
+
         // Simulate AI analysis
         setTimeout(() => {
             const newDiagnosisId = 'DG' + Date.now().toString().slice(-6);
             setDiagnosisId(newDiagnosisId);
-            
+
             // Mock analysis result based on device type and issue
             const mockResult = generateMockAnalysis();
             setAnalysisResult(mockResult);
@@ -199,7 +210,7 @@ const Diagnosis = () => {
 
     const generateMockAnalysis = () => {
         const { deviceType, issue } = formData;
-        
+
         // Mock analysis based on device and issue
         const analysisTemplates = {
             mobile: {
@@ -295,7 +306,7 @@ const Diagnosis = () => {
                             <div className="card bg-base-100 shadow-xl">
                                 <div className="card-body">
                                     <h2 className="card-title text-2xl mb-4">Analysis Results</h2>
-                                    
+
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center">
                                             <span className="font-semibold">Confidence Level:</span>
@@ -304,21 +315,20 @@ const Diagnosis = () => {
                                                 <span className="text-success font-bold">{analysisResult.confidence}%</span>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="divider"></div>
-                                        
+
                                         <div>
                                             <h3 className="font-semibold text-lg mb-2">Diagnosis:</h3>
                                             <p className="text-base-content/80">{analysisResult.diagnosis}</p>
                                         </div>
-                                        
+
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="stat">
                                                 <div className="stat-title">Severity</div>
-                                                <div className={`stat-value text-lg ${
-                                                    analysisResult.severity === 'High' ? 'text-error' :
-                                                    analysisResult.severity === 'Medium' ? 'text-warning' : 'text-success'
-                                                }`}>
+                                                <div className={`stat-value text-lg ${analysisResult.severity === 'High' ? 'text-error' :
+                                                        analysisResult.severity === 'Medium' ? 'text-warning' : 'text-success'
+                                                    }`}>
                                                     {analysisResult.severity}
                                                 </div>
                                             </div>
@@ -327,7 +337,7 @@ const Diagnosis = () => {
                                                 <div className="stat-value text-lg text-primary">{analysisResult.repairTime}</div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="bg-primary/10 p-4 rounded-lg">
                                             <h4 className="font-semibold text-primary mb-2">Estimated Cost:</h4>
                                             <p className="text-2xl font-bold text-primary">{analysisResult.estimatedCost}</p>
@@ -341,7 +351,7 @@ const Diagnosis = () => {
                             <div className="card bg-base-100 shadow-xl">
                                 <div className="card-body">
                                     <h2 className="card-title text-2xl mb-4">Recommendations</h2>
-                                    
+
                                     <div className="space-y-6">
                                         <div>
                                             <h3 className="font-semibold text-lg mb-3">What to do next:</h3>
@@ -354,7 +364,7 @@ const Diagnosis = () => {
                                                 ))}
                                             </ul>
                                         </div>
-                                        
+
                                         <div>
                                             <h3 className="font-semibold text-lg mb-3">Next Steps:</h3>
                                             <div className="space-y-2">
@@ -368,7 +378,7 @@ const Diagnosis = () => {
                                                 ))}
                                             </div>
                                         </div>
-                                        
+
                                         <div className="alert alert-info">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             <span>This is an AI-powered preliminary diagnosis. Physical inspection may reveal additional issues.</span>
@@ -380,13 +390,13 @@ const Diagnosis = () => {
 
                         {/* Action Buttons */}
                         <div className="text-center mt-8 space-x-4">
-                            <button 
+                            <button
                                 className="btn btn-primary btn-lg"
                                 onClick={() => navigate('/booking')}
                             >
                                 📅 Book Repair Now
                             </button>
-                            <button 
+                            <button
                                 className="btn btn-outline btn-lg"
                                 onClick={() => window.location.reload()}
                             >
@@ -443,7 +453,7 @@ const Diagnosis = () => {
                             {currentStep === 1 && (
                                 <div className="space-y-6">
                                     <h2 className="text-2xl font-bold text-center">Device Information</h2>
-                                    
+
                                     {/* Device Type Selection */}
                                     <div>
                                         <label className="label">
@@ -453,11 +463,10 @@ const Diagnosis = () => {
                                             {deviceTypes.map((device) => (
                                                 <div
                                                     key={device.id}
-                                                    className={`card cursor-pointer transition-all hover:scale-105 ${
-                                                        formData.deviceType === device.id
+                                                    className={`card cursor-pointer transition-all hover:scale-105 ${formData.deviceType === device.id
                                                             ? 'bg-primary text-primary-content'
                                                             : 'bg-base-200 hover:bg-base-300'
-                                                    }`}
+                                                        }`}
                                                     onClick={() => handleInputChange('deviceType', device.id)}
                                                 >
                                                     <div className="card-body items-center text-center p-4">
@@ -495,11 +504,10 @@ const Diagnosis = () => {
                                                 {commonIssues[formData.deviceType]?.map((issue) => (
                                                     <button
                                                         key={issue}
-                                                        className={`btn btn-sm ${
-                                                            formData.issue === issue
+                                                        className={`btn btn-sm ${formData.issue === issue
                                                                 ? 'btn-primary'
                                                                 : 'btn-outline'
-                                                        }`}
+                                                            }`}
                                                         onClick={() => handleInputChange('issue', issue)}
                                                     >
                                                         {issue}
@@ -522,9 +530,9 @@ const Diagnosis = () => {
                                 <div className="space-y-6">
                                     <h2 className="text-2xl font-bold text-center">Upload Device Images</h2>
                                     <p className="text-center text-base-content/70">Upload clear photos of your device and the problem area (Max 5 images)</p>
-                                    
+
                                     {/* Upload Area */}
-                                    <div 
+                                    <div
                                         className="border-2 border-dashed border-base-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"
                                         onClick={() => fileInputRef.current?.click()}
                                     >
@@ -533,7 +541,7 @@ const Diagnosis = () => {
                                         <p className="text-base-content/70">or drag and drop images here</p>
                                         <p className="text-sm text-base-content/50 mt-2">Supports: JPG, PNG, WEBP (Max 10MB each)</p>
                                     </div>
-                                    
+
                                     <input
                                         ref={fileInputRef}
                                         type="file"
@@ -550,8 +558,8 @@ const Diagnosis = () => {
                                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                                 {formData.images.map((image, index) => (
                                                     <div key={index} className="relative">
-                                                        <img 
-                                                            src={image.preview} 
+                                                        <img
+                                                            src={image.preview}
                                                             alt={`Upload ${index + 1}`}
                                                             className="w-full h-32 object-cover rounded-lg"
                                                         />
@@ -575,7 +583,7 @@ const Diagnosis = () => {
                                 <div className="space-y-6">
                                     <h2 className="text-2xl font-bold text-center">Contact Information</h2>
                                     <p className="text-center text-base-content/70">We'll send the diagnosis results to you</p>
-                                    
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label className="label">
@@ -589,7 +597,7 @@ const Diagnosis = () => {
                                                 onChange={(e) => handleInputChange('contactInfo.name', e.target.value)}
                                             />
                                         </div>
-                                        
+
                                         <div>
                                             <label className="label">
                                                 <span className="label-text font-semibold">Phone Number *</span>
@@ -603,7 +611,7 @@ const Diagnosis = () => {
                                             />
                                         </div>
                                     </div>
-                                    
+
                                     <div className="alert alert-info">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         <div>
@@ -616,16 +624,16 @@ const Diagnosis = () => {
 
                             {/* Navigation Buttons */}
                             <div className="card-actions justify-between mt-8">
-                                <button 
+                                <button
                                     className={`btn btn-outline ${currentStep === 1 ? 'btn-disabled' : ''}`}
                                     onClick={handlePrevStep}
                                     disabled={currentStep === 1}
                                 >
                                     Previous
                                 </button>
-                                
+
                                 {currentStep < 3 ? (
-                                    <button 
+                                    <button
                                         className={`btn btn-primary ${!isStepValid() ? 'btn-disabled' : ''}`}
                                         onClick={handleNextStep}
                                         disabled={!isStepValid()}
@@ -633,7 +641,7 @@ const Diagnosis = () => {
                                         Next Step
                                     </button>
                                 ) : (
-                                    <button 
+                                    <button
                                         className={`btn btn-success btn-lg ${!isStepValid() ? 'btn-disabled' : ''}`}
                                         onClick={handleStartDiagnosis}
                                         disabled={!isStepValid()}
