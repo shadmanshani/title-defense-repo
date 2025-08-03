@@ -9,7 +9,8 @@ import { useTheme } from '../Context/ThemeContext';
 const Navbar = () => {
     const navigate = useNavigate()
     const { isAuthenticated, logout } = useAuth();
-    const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
+    const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+    const [activeSubmenu, setActiveSubmenu] = React.useState(null);
 
     const go = () => {
         console.log('goto dhaka')
@@ -30,6 +31,7 @@ const Navbar = () => {
         
         // Update the dropdown state
         setIsDropdownOpen(false);
+        setActiveSubmenu(null);
         
         // Hide the mobile menu by removing the 'open' class from the dropdown
         const dropdown = document.querySelector('.dropdown');
@@ -49,20 +51,18 @@ const Navbar = () => {
         }, 50);
     };
     
-    // Function to toggle mobile menu
-    const toggleMobileMenu = () => {
-        const newState = !isDropdownOpen;
-        setIsDropdownOpen(newState);
-        
-        // Toggle the dropdown-open class directly on the parent dropdown
-        const dropdown = document.querySelector('.dropdown');
-        if (dropdown) {
-            if (newState) {
-                dropdown.classList.add('dropdown-open');
-            } else {
-                dropdown.classList.remove('dropdown-open');
-            }
-        }
+    // Toggle mobile menu
+    const toggleMobileMenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    // Handle navigation for menu items
+    const handleNavigation = (path) => {
+        closeAllMenus();
+        setActiveSubmenu(null);
+        navigate(path);
     };
 
     // Define all menu links
@@ -98,50 +98,62 @@ const Navbar = () => {
         return true;
     });
 
-    // Function to handle all menu item clicks
-    const handleMenuItemClick = (path) => {
-        closeAllMenus();
-        setTimeout(() => {
-            navigate(path);
-        }, 50);
-    };
-
-    const renderMenu = (
-        <>
-            {menuLinks.map((item, index) => (
-                <li key={index}>
-                    {item.children ? (
-                        <details>
-                            <summary className="text-blue-700 hover:text-blue-500">{item.name}</summary>
-                            <ul className="p-2">
-                                {item.children.map((child, idx) => (
-                                    <li key={idx}>
-                                        <a
-                                            onClick={() => handleMenuItemClick(child.path)}
-                                            className="text-blue-600 hover:text-blue-400 block px-2 py-1 rounded cursor-pointer"
-                                        >
-                                            {child.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </details>
-                    ) : (
-                        <a
-                            onClick={() => handleMenuItemClick(item.path)}
-                            className={`transition-transform duration-200 px-3 py-1 rounded-lg font-medium cursor-pointer ${
-                                window.location.pathname === item.path
-                                    ? 'text-blue-700 bg-blue-100'
-                                    : 'text-blue-600 hover:text-blue-400 hover:bg-blue-50'
-                            } hover:scale-110`}
-                        >
+    // Render menu items
+    const renderMenu = menuLinks.map((item, index) => {
+        if (item.children) {
+            return (
+                <li key={index} className="group relative flex items-center">
+                    <button 
+                        className="flex items-center justify-between w-full px-4 py-2 text-left font-semibold text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-gray-700 border-0 hover:border-0 focus:border-0 focus:outline-none"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveSubmenu(activeSubmenu === index ? null : index);
+                        }}
+                    >
+                        <span className="flex items-center">
                             {item.name}
-                        </a>
-                    )}
+                            <svg 
+                                className={`w-4 h-4 ml-1 transition-transform ${activeSubmenu === index ? 'rotate-180' : ''}`} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </button>
+                    <div className="relative">
+                        <ul 
+                            className={`${activeSubmenu === index ? 'block' : 'hidden'} 
+                                bg-white dark:bg-gray-800 pl-4 border border-gray-200 dark:border-gray-700 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:shadow-md lg:rounded-b lg:min-w-[200px]`}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {item.children.map((child, childIndex) => (
+                                <li key={childIndex}>
+                                    <button 
+                                        className="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 dark:text-gray-300 dark:hover:bg-gray-700"
+                                        onClick={() => handleNavigation(child.path)}
+                                    >
+                                        {child.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </li>
-            ))}
-        </>
-    )
+            );
+        }
+        return (
+            <li key={index}>
+                <button 
+                    className="w-full text-left px-4 py-2 font-semibold text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-gray-700"
+                    onClick={() => handleNavigation(item.path)}
+                >
+                    {item.name}
+                </button>
+            </li>
+        );
+    });
 
     // Theme toggle handler using ThemeContext
     const { theme, toggleTheme } = useTheme();
@@ -160,11 +172,12 @@ const Navbar = () => {
             {/* Navbar Start */}
             <div className="navbar-start">
                 <div className="dropdown">
-                    <div 
-                        tabIndex={0} 
-                        role="button" 
-                        className="btn btn-ghost lg:hidden"
+                    <button 
+                        type="button"
+                        className="btn btn-ghost lg:hidden p-2"
                         onClick={toggleMobileMenu}
+                        aria-expanded={isDropdownOpen}
+                        aria-label="Toggle navigation"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -180,15 +193,18 @@ const Navbar = () => {
                                 d="M4 6h16M4 12h16M4 18h16"
                             />
                         </svg>
-                    </div>
+                    </button>
                     <ul
-                        tabIndex={0}
                         className={`menu menu-sm dropdown-content bg-neutral text-neutral-content rounded-box z-[1] mt-3 w-52 p-2 shadow text-base ${isDropdownOpen ? 'block' : 'hidden'}`}
-                        style={{ display: isDropdownOpen ? 'block' : 'none' }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            // Close submenu when clicking on the menu container
+                            setActiveSubmenu(null);
+                        }}
                     >
                         {renderMenu}
                         {/* Authentication buttons for mobile menu */}
-                        <div className="lg:hidden flex flex-col gap-2 mt-2 pt-2 border-t border-gray-600">
+                        <div className="lg:hidden flex flex-col gap-2 ">
                             {isAuthenticated ? (
                                 <button className="btn btn-outline btn-error" onClick={handleLogout}>Logout</button>
                             ) : (
@@ -210,7 +226,9 @@ const Navbar = () => {
 
             {/* Navbar Center */}
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1 text-base">{renderMenu}</ul>
+                <ul className="menu menu-horizontal px-1 text-base flex items-center">
+                    {renderMenu}
+                </ul>
             </div>
 
             {/* Navbar End */}
