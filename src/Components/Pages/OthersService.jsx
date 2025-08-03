@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaInfoCircle } from 'react-icons/fa';
 
 // Others Service Images (using laptop screen as placeholder for some)
 import Lscreen from '../../../src/assets/laptop/Lscreen.jpg'
@@ -76,18 +77,30 @@ const OthersService = () => {
                                     <span className="text-sm text-base-content/60">⏱️ 1-3 hours</span>
                                 </div>
                                 
-                                <div className="flex gap-2 w-full">
+                                <div className="flex flex-col gap-2 w-full">
+                                    <div className="flex gap-2">
+                                        <button 
+                                            onClick={() => handleBookNow(service.name)}
+                                            className="btn btn-primary btn-sm flex-1"
+                                        >
+                                            Book Now
+                                        </button>
+                                        <button 
+                                            onClick={handleGetDiagnosis}
+                                            className="btn btn-outline btn-sm"
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
                                     <button 
-                                        onClick={() => handleBookNow(service.name)}
-                                        className="btn btn-primary btn-sm flex-1"
+                                        onClick={() => navigate('/details', { 
+                                            state: { 
+                                                service: { ...service, category: 'Others Service' } 
+                                            } 
+                                        })}
+                                        className="btn btn-ghost btn-sm w-full gap-2"
                                     >
-                                        Book Now
-                                    </button>
-                                    <button 
-                                        onClick={handleGetDiagnosis}
-                                        className="btn btn-outline btn-sm"
-                                    >
-                                        Check
+                                        <FaInfoCircle /> View Details
                                     </button>
                                 </div>
                             </div>

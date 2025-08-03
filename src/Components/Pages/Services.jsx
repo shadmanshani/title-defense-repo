@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 // ==========Mobile Picture===========
 import screen from '../../../src/assets/mobile/screen.jpg'
@@ -158,7 +158,32 @@ const Services = () => {
                                     <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
                                     <p className="text-base-content text-sm">{service.desc}</p>
                                     <div className="mt-3">
-                                        <button className="btn btn-outline btn-primary">Details</button>
+                                        <Link 
+                                            to="/details" 
+                                            state={{ 
+                                                service: {
+                                                    name: service.name,
+                                                    image: service.image,
+                                                    desc: service.desc,
+                                                    // Add other simple properties you need
+                                                    // but exclude React components like icons
+                                                } 
+                                            }}
+                                            className="btn btn-outline btn-primary"
+                                            onClick={(e) => {
+                                                // Create a simplified version of the service object
+                                                const simpleService = {
+                                                    name: service.name,
+                                                    image: service.image,
+                                                    desc: service.desc
+                                                    // Add other simple properties you need
+                                                };
+                                                // Store in session storage as fallback
+                                                sessionStorage.setItem('selectedService', JSON.stringify(simpleService));
+                                            }}
+                                        >
+                                            Details
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

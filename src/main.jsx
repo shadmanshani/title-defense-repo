@@ -20,6 +20,7 @@ import MouseKeyboard from './Components/Pages/MouseKeyboard';
 import OthersService from './Components/Pages/OthersService';
 import Login from './Components/Pages/Login';
 import Register from './Components/Pages/Register';
+import DetailsInfo from './Components/Pages/DetailsInfo';
 import { AuthProvider } from './Components/Context/AuthContext';
 
 const router = createBrowserRouter([
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/details',
+        element: <DetailsInfo></DetailsInfo>
       }
     ]
   },
