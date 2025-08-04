@@ -197,6 +197,8 @@ const Diagnosis = () => {
         setIsAnalyzing(true);
 
         // Simulate AI analysis
+        // Loading/ Processing effect for 3 seconds
+        // Uniqe diagnosis id generation
         setTimeout(() => {
             const newDiagnosisId = 'DG' + Date.now().toString().slice(-6);
             setDiagnosisId(newDiagnosisId);
