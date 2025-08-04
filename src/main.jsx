@@ -1,11 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { useLocation } from 'react-router-dom';
+import './index.css';
 // import App from './App.jsx'
-import { HeroUIProvider } from '@heroui/react'
+import { HeroUIProvider } from '@heroui/react';
 import {
   createBrowserRouter,
   RouterProvider,
+  useNavigationType,
+  useRoutes,
+  UNSAFE_useScrollRestoration as useScrollRestoration,
 } from "react-router-dom";
 import Root from './Components/Root/Root';
 import Home from './Components/Pages/Home';
@@ -22,6 +26,21 @@ import Login from './Components/Pages/Login';
 import Register from './Components/Pages/Register';
 import DetailsInfo from './Components/Pages/DetailsInfo';
 import { AuthProvider } from './Components/Context/AuthContext';
+
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  const navigationType = useNavigationType();
+  
+  useEffect(() => {
+    // Scroll to top when the pathname changes and it's not a back/forward navigation
+    if (navigationType === 'PUSH') {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, navigationType]);
+
+  return null;
+}
 
 const router = createBrowserRouter([
   {
