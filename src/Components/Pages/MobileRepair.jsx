@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Mobile Service Images
@@ -9,9 +9,13 @@ import speaker from '../../../src/assets/mobile/speaker.jpg'
 import motherb from '../../../src/assets/mobile/motherb.jpg'
 import camera from '../../../src/assets/mobile/camera.jpg'
 import repair from '../../../src/assets/mobile/repair.jpg'
+// Using existing image for button
+import button from '../../../src/assets/mobile/repair.jpg'
 
 const MobileRepair = () => {
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const servicesPerPage = 8;
 
     const mobileServices = [
         { name: "Screen Replacement", image: `${screen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect width="16" height="20" x="4" y="2" rx="2" /><path d="M8 18h8" /></svg>, desc: "Replace broken or cracked mobile screens.", price: "৳1,500 - ৳3,500" },
@@ -22,6 +26,13 @@ const MobileRepair = () => {
         { name: "Software Update", image: `${motherb}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v4m0 0l-2-2m2 2l2-2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Update and optimize mobile software.", price: "৳300 - ৳800" },
         { name: "Water Damage Repair", image: `${repair}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2C12 2 7 8 7 12a5 5 0 0010 0c0-4-5-10-5-10z" /></svg>, desc: "Restore mobiles from water damage.", price: "৳1,200 - ৳4,000" },
         { name: "Data Recovery", image: `${mport}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 12h8" /></svg>, desc: "Recover lost data from devices.", price: "৳500 - ৳2,000" },
+        { name: "Screen Protector", image: `${screen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" /></svg>, desc: "Install high-quality screen protectors.", price: "৳200 - ৳800" },
+        { name: "Back Glass Repair", image: `${battery}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" /></svg>, desc: "Replace cracked or damaged back glass.", price: "৳1,000 - ৳3,000" },
+        { name: "Vibration Motor", image: `${mport}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2v4m0 0l-2-2m2 2l2-2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Fix or replace vibration motor.", price: "৳400 - ৳1,200" },
+        { name: "Proximity Sensor", image: `${camera}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="3" /><path d="M12 2v4m0 12v4m9-9h-4M3 12h4" /></svg>, desc: "Repair or replace proximity sensor.", price: "৳300 - ৳900" },
+        { name: "Power Button", image: `${button}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" /></svg>, desc: "Fix unresponsive power buttons.", price: "৳500 - ৳1,500" },
+        { name: "Volume Buttons", image: `${button}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M19 12a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>, desc: "Repair or replace volume buttons.", price: "৳400 - ৳1,200" },
+        { name: "Earpiece Speaker", image: `${speaker}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2v4m0 0l-2-2m2 2l2-2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Fix or replace earpiece speaker.", price: "৳300 - ৳1,000" },
     ];
 
     const handleBookNow = (serviceName) => {
@@ -32,25 +43,33 @@ const MobileRepair = () => {
         navigate('/diagnosis', { state: { category: 'Mobile Repair' } });
     };
 
+    // Pagination logic
+    const indexOfLastService = currentPage * servicesPerPage;
+    const indexOfFirstService = indexOfLastService - servicesPerPage;
+    const currentServices = mobileServices.slice(indexOfFirstService, indexOfLastService);
+    const totalPages = Math.ceil(mobileServices.length / servicesPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div className="min-h-screen bg-base-200">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white pt-24 pb-16">
+            <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white pt-24 pb-16">
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Mobile Repair Services</h1>
-                    <p className="text-xl mb-8">Professional mobile repair with genuine parts and warranty</p>
+                    <p className="text-xl mb-8">Fast and reliable repair services for all mobile devices</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button 
                             onClick={handleGetDiagnosis}
                             className="btn btn-warning btn-lg px-8"
                         >
-                            📸 Get Free Diagnosis
+                            📱 Test Device
                         </button>
                         <button 
                             onClick={() => navigate('/booking')}
                             className="btn btn-success btn-lg px-8"
                         >
-                            📞 Emergency Repair
+                            ⚡ Quick Fix
                         </button>
                     </div>
                 </div>
@@ -59,15 +78,15 @@ const MobileRepair = () => {
             {/* Services Grid */}
             <div className="container mx-auto px-4 py-12">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-base-content mb-4">Our Mobile Repair Services</h2>
+                    <h2 className="text-3xl font-bold text-base-content mb-4">Our Mobile Services</h2>
                     <p className="text-base-content/70 max-w-2xl mx-auto">
-                        We provide comprehensive mobile repair services with experienced technicians, 
-                        genuine parts, and quick turnaround time.
+                        We provide comprehensive repair services for all major mobile brands and models.
+                        Our expert technicians use high-quality parts and tools to ensure the best results.
                     </p>
                 </div>
 
                 <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                    {mobileServices.map((service, index) => (
+                    {currentServices.map((service, index) => (
                         <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
                             <div className="card-body items-center text-center">
                                 <img 
@@ -99,6 +118,39 @@ const MobileRepair = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                
+                {/* Pagination */}
+                <div className="flex justify-center mt-8 space-x-2">
+                    <button 
+                        onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                        disabled={currentPage === 1}
+                        className={`px-4 py-2 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Previous
+                    </button>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                        <button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            className={`px-4 py-2 rounded ${currentPage === number ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                        >
+                            {number}
+                        </button>
+                    ))}
+                    
+                    <button 
+                        onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                        disabled={currentPage === totalPages}
+                        className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Next
+                    </button>
+                </div>
+                
+                <div className="text-center mt-4 text-gray-600">
+                    Page {currentPage} of {totalPages}
                 </div>
             </div>
 

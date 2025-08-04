@@ -168,7 +168,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="navbar bg-white text-neutral-content shadow-md sticky top-0 z-50 py-3">
+        <div className="navbar bg-white text-neutral-content shadow-md sticky top-0 z-50 py-1">
             {/* Navbar Start */}
             <div className="navbar-start">
                 <div className="dropdown">
@@ -217,7 +217,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <a
-                    className="btn bg-white border-none shadow-none text-2xl font-bold tracking-tight text-gray-500 cursor-pointer"
+                    className="btn bg-white border-none shadow-none text-xl font-bold tracking-tight text-gray-500 cursor-pointer"
                     onClick={() => navigate('/')}
                 >
                     eSoLuTiOn

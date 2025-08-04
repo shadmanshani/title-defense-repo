@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Mouse & Keyboard Service Images
@@ -9,9 +9,13 @@ import clean from '../../../src/assets/k_mouse/clean.jpg'
 import usb from '../../../src/assets/k_mouse/usb.jpg'
 import wheel from '../../../src/assets/k_mouse/wheel.jpeg'
 import rgb from '../../../src/assets/k_mouse/rgb.jpg'
+// Using existing images from k_mouse directory
+import keyboard from '../../../src/assets/k_mouse/button.jpg'
 
 const MouseKeyboard = () => {
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const servicesPerPage = 8;
 
     const mouseKeyboardServices = [
         { name: "Mouse Sensor Repair", image: `${sensor}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8" /></svg>, desc: "Fix mouse sensor and tracking issues.", price: "৳300 - ৳800" },
@@ -21,7 +25,14 @@ const MouseKeyboard = () => {
         { name: "Key Replacement", image: `${button}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="8" y="8" width="8" height="8" rx="2" /></svg>, desc: "Replace missing or broken keys.", price: "৳100 - ৳300" },
         { name: "USB Port Repair", image: `${usb}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="8" width="16" height="8" rx="2" /></svg>, desc: "Repair USB connectivity issues.", price: "৳250 - ৳700" },
         { name: "Firmware Update", image: `${wheel}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v4m0 0l-2-2m2 2l2-2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Update device firmware for better performance.", price: "৳200 - ৳500" },
-        { name: "RGB Lighting Repair", image: `${rgb}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8" /></svg>, desc: "Fix RGB lighting issues in devices.", price: "৳300 - ৳900" },
+        { name: "RGB Lighting Repair", image: `${rgb}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8" /></svg>, desc: "Fix RGB lighting issues in devices.", price: "৳300 - ৳800" },
+        { name: "Mouse Wheel Repair", image: `${wheel}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" /></svg>, desc: "Fix scrolling issues with mouse wheels.", price: "৳250 - ৳700" },
+        { name: "Switch Replacement", image: `${button}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" /></svg>, desc: "Replace mechanical keyboard switches.", price: "৳800 - ৳2,000" },
+        { name: "Cable Replacement", image: `${usb}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 7h12M8 12h12M8 17h12" /></svg>, desc: "Replace damaged USB or charging cables.", price: "৳300 - ৳800" },
+        { name: "Keycap Replacement", image: `${button}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="8" y="8" width="8" height="8" rx="2" /></svg>, desc: "Replace worn or damaged keycaps.", price: "৳50 - ৳200" },
+        { name: "Mouse Feet Replacement", image: `${sensor}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" /></svg>, desc: "Replace worn-out mouse feet for smoother gliding.", price: "৳200 - ৳500" },
+        { name: "Macro Key Programming", image: `${keyboard}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 15l-3-3m0 0l3-3m-3 3h6m-6 4h6m6-10v16a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>, desc: "Program custom macros for gaming keyboards.", price: "৳300 - ৳800" },
+        { name: "Switch Lubrication", image: `${keyboard}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2C12 2 7 8 7 12a5 5 0 0010 0c0-4-5-10-5-10z" /></svg>, desc: "Lubricate mechanical switches for smoother typing.", price: "৳500 - ৳1,200" },
     ];
 
     const handleBookNow = (serviceName) => {
@@ -31,6 +42,14 @@ const MouseKeyboard = () => {
     const handleGetDiagnosis = () => {
         navigate('/diagnosis', { state: { category: 'Mouse & Keyboard' } });
     };
+
+    // Pagination logic
+    const indexOfLastService = currentPage * servicesPerPage;
+    const indexOfFirstService = indexOfLastService - servicesPerPage;
+    const currentServices = mouseKeyboardServices.slice(indexOfFirstService, indexOfLastService);
+    const totalPages = Math.ceil(mouseKeyboardServices.length / servicesPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className="min-h-screen bg-base-200">
@@ -67,7 +86,7 @@ const MouseKeyboard = () => {
                 </div>
 
                 <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                    {mouseKeyboardServices.map((service, index) => (
+                    {currentServices.map((service, index) => (
                         <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
                             <div className="card-body items-center text-center">
                                 <img 
@@ -99,6 +118,39 @@ const MouseKeyboard = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                
+                {/* Pagination */}
+                <div className="flex justify-center mt-8 space-x-2">
+                    <button 
+                        onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                        disabled={currentPage === 1}
+                        className={`px-4 py-2 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Previous
+                    </button>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                        <button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            className={`px-4 py-2 rounded ${currentPage === number ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                        >
+                            {number}
+                        </button>
+                    ))}
+                    
+                    <button 
+                        onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                        disabled={currentPage === totalPages}
+                        className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Next
+                    </button>
+                </div>
+                
+                <div className="text-center mt-4 text-gray-600">
+                    Page {currentPage} of {totalPages}
                 </div>
             </div>
 

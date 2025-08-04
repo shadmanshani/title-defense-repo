@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaInfoCircle } from 'react-icons/fa';
 
@@ -7,6 +7,8 @@ import Lscreen from '../../../src/assets/laptop/Lscreen.jpg'
 
 const OthersService = () => {
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const servicesPerPage = 8;
 
     const othersServices = [
         { name: "Printer Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect width="18" height="14" x="3" y="7" rx="2" /><path d="M7 7V3h10v4" /></svg>, desc: "Repair and maintenance for all printers.", price: "৳800 - ৳3,000" },
@@ -17,6 +19,14 @@ const OthersService = () => {
         { name: "Networking", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M2 12a10 10 0 0120 0" /></svg>, desc: "Network setup and troubleshooting.", price: "৳500 - ৳3,000" },
         { name: "Accessories", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80", icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" /></svg>, desc: "Chargers, cables, and other accessories.", price: "৳200 - ৳1,500" },
         { name: "Data Backup", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 12h8" /></svg>, desc: "Backup important data securely.", price: "৳300 - ৳1,000" },
+        { name: "3D Printer Service", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 002-2V7M4 7l4-4h8l4 4M4 7l4 4h8l4-4" /></svg>, desc: "Maintenance and repair for 3D printers.", price: "৳1,500 - ৳5,000" },
+        { name: "Gaming Console Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 12h.01M12 12h.01M16 12h.01M8 8h.01M16 8h.01" /></svg>, desc: "Fix hardware issues in gaming consoles.", price: "৳1,000 - ৳4,000" },
+        { name: "Smart Home Setup", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>, desc: "Install and configure smart home devices.", price: "৳2,000 - ৳8,000" },
+        { name: "Drone Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 15l-3-3m0 0l3-3m-3 3h6" /></svg>, desc: "Repair and maintenance for consumer drones.", price: "৳1,500 - ৳6,000" },
+        { name: "VR Headset Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" /><path d="M12 8v8m-4-4h8" /></svg>, desc: "Fix display and tracking issues in VR headsets.", price: "৳2,000 - ৳7,000" },
+        { name: "Smartwatch Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="6" y="2" width="12" height="20" rx="2" /><path d="M12 18v-4" /></svg>, desc: "Repair screens and batteries in smartwatches.", price: "৳1,000 - ৳5,000" },
+        { name: "Tablet Repair", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M12 18h.01" /></svg>, desc: "Fix screens, batteries, and charging ports in tablets.", price: "৳1,500 - ৳6,000" },
+        { name: "External Drive Recovery", image: `${Lscreen}`, icon: <svg className="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 3v4m0 0V3m0 4H4m4 0h4m-8 4h16m0 0v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8" /></svg>, desc: "Data recovery from damaged external drives.", price: "৳1,000 - ৳4,000" },
     ];
 
     const handleBookNow = (serviceName) => {
@@ -26,6 +36,14 @@ const OthersService = () => {
     const handleGetDiagnosis = () => {
         navigate('/diagnosis', { state: { category: 'Others Service' } });
     };
+
+    // Pagination logic
+    const indexOfLastService = currentPage * servicesPerPage;
+    const indexOfFirstService = indexOfLastService - servicesPerPage;
+    const currentServices = othersServices.slice(indexOfFirstService, indexOfLastService);
+    const totalPages = Math.ceil(othersServices.length / servicesPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className="min-h-screen bg-base-200">
@@ -62,7 +80,7 @@ const OthersService = () => {
                 </div>
 
                 <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                    {othersServices.map((service, index) => (
+                    {currentServices.map((service, index) => (
                         <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
                             <div className="card-body items-center text-center">
                                 <img 
@@ -106,6 +124,39 @@ const OthersService = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                
+                {/* Pagination */}
+                <div className="flex justify-center mt-8 space-x-2">
+                    <button 
+                        onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                        disabled={currentPage === 1}
+                        className={`px-4 py-2 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Previous
+                    </button>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                        <button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            className={`px-4 py-2 rounded ${currentPage === number ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                        >
+                            {number}
+                        </button>
+                    ))}
+                    
+                    <button 
+                        onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                        disabled={currentPage === totalPages}
+                        className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+                    >
+                        Next
+                    </button>
+                </div>
+                
+                <div className="text-center mt-4 text-gray-600">
+                    Page {currentPage} of {totalPages}
                 </div>
             </div>
 
