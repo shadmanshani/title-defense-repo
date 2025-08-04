@@ -85,32 +85,43 @@ const MobileRepair = () => {
                     </p>
                 </div>
 
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
                     {currentServices.map((service, index) => (
-                        <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
-                            <div className="card-body items-center text-center">
-                                <img 
-                                    src={service.image} 
-                                    alt={service.name}
-                                    className="rounded-xl mb-3 w-[300px] h-[200px] object-cover"
-                                />
-                                <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
-                                <p className="text-base-content text-sm mb-3">{service.desc}</p>
-                                <div className="flex justify-between items-center mb-4 w-full">
-                                    <span className="text-lg font-bold text-green-600">{service.price}</span>
-                                    <span className="text-sm text-base-content/60">⏱️ 1-2 hours</span>
+                        <div key={index} className="card bg-base-200 shadow-xl hover:scale-[1.02] transition-transform duration-300 h-full flex flex-col">
+                            <div className="card-body p-3 sm:p-4 text-center flex flex-col h-full">
+                                <div className="flex-shrink-0">
+                                    <img 
+                                        src={service.image} 
+                                        alt={service.name}
+                                        className="w-full h-24 sm:h-28 object-cover rounded-lg mb-2"
+                                    />
+                                    <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-primary/10 mx-auto mb-2">
+                                        <div className="w-6 h-6 sm:w-8 sm:h-8">
+                                            {React.cloneElement(service.icon, { className: 'w-full h-full' })}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 className="card-title text-sm sm:text-base font-medium line-clamp-2 h-10 sm:h-12 flex items-center justify-center">
+                                    {service.name}
+                                </h4>
+                                <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 h-10 sm:h-12 mb-1 sm:mb-2">
+                                    {service.desc}
+                                </p>
+                                <div className="flex justify-between items-center mt-auto mb-2 w-full">
+                                    <span className="text-sm sm:text-base font-semibold text-green-600">{service.price}</span>
+                                    <span className="text-xs sm:text-sm text-gray-500">⏱️ 1-2h</span>
                                 </div>
                                 
-                                <div className="flex gap-2 w-full">
+                                <div className="flex gap-2 w-full mt-2">
                                     <button 
                                         onClick={() => handleBookNow(service.name)}
-                                        className="btn btn-primary btn-sm flex-1"
+                                        className="btn btn-primary btn-sm flex-1 text-xs sm:text-sm h-8 min-h-8"
                                     >
                                         Book Now
                                     </button>
                                     <button 
                                         onClick={handleGetDiagnosis}
-                                        className="btn btn-outline btn-sm"
+                                        className="btn btn-outline btn-sm text-xs sm:text-sm h-8 min-h-8"
                                     >
                                         Diagnose
                                     </button>

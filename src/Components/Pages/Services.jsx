@@ -177,15 +177,36 @@ const Services = () => {
                 {/* Active Tab Content */}
                 <div id={activeCategory.category.replace(/\s+/g, '-').toLowerCase()}>
                     <h3 className="text-2xl font-bold text-secondary mb-8 text-left">{activeCategory.category}</h3>
-                    <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {activeCategory.services.map((service, idx) => (
-                            <div key={idx} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
-                                <div className="card-body items-center text-center">
-                                    <img src={service.image} alt={service.name + ' image'} className="rounded-xl mb-3 w-[300px] h-[200px] object-cover" />
-                                    {/* <div className="mb-4">{service.icon}</div> */}
-                                    <h4 className="card-title text-lg font-semibold mb-2">{service.name}</h4>
-                                    <p className="text-base-content text-sm">{service.desc}</p>
-                                    <div className="mt-3">
+                            <div key={idx} className="card bg-base-200 shadow-xl hover:scale-[1.02] transition-transform duration-300 h-full flex flex-col">
+                                <div className="card-body p-3 sm:p-4 text-center flex flex-col h-full">
+                                    <div className="flex-shrink-0">
+                                        <img 
+                                            src={service.image} 
+                                            alt={service.name} 
+                                            className="w-full h-32 sm:h-36 object-cover rounded-lg mb-2"
+                                        />
+                                        {service.icon && (
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-primary/10 mx-auto mb-2">
+                                                {React.cloneElement(service.icon, { 
+                                                    className: 'w-6 h-6 sm:w-7 sm:h-7 text-primary' 
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <h4 className="card-title text-sm sm:text-base font-medium line-clamp-2 h-10 sm:h-12 flex items-center justify-center">
+                                        {service.name}
+                                    </h4>
+                                    <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 h-10 sm:h-12 mb-2">
+                                        {service.desc}
+                                    </p>
+                                    {service.priceRange && (
+                                        <p className="text-xs sm:text-sm font-semibold text-green-600 mb-2">
+                                            {service.priceRange}
+                                        </p>
+                                    )}
+                                    <div className="mt-auto">
                                         <Link 
                                             to="/details" 
                                             state={{ 
@@ -193,11 +214,10 @@ const Services = () => {
                                                     name: service.name,
                                                     image: service.image,
                                                     desc: service.desc,
-                                                    // Add other simple properties you need
-                                                    // but exclude React components like icons
+                                                    priceRange: service.priceRange
                                                 } 
                                             }}
-                                            className="btn btn-outline btn-primary"
+                                            className="btn btn-sm btn-primary w-full text-xs sm:text-sm h-8 min-h-8"
                                             onClick={(e) => {
                                                 // Create a simplified version of the service object
                                                 const simpleService = {

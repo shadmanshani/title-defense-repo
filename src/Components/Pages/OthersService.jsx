@@ -79,7 +79,7 @@ const OthersService = () => {
                     </p>
                 </div>
 
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
                     {currentServices.map((service, index) => (
                         <div key={index} className="card bg-base-200 shadow-xl hover:scale-105 transition-transform duration-300">
                             <div className="card-body items-center text-center">
