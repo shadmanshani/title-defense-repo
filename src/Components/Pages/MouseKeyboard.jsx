@@ -104,7 +104,7 @@ const MouseKeyboard = () => {
                                 <h3 className="card-title text-sm sm:text-base font-medium line-clamp-2 h-10 sm:h-12 flex items-center justify-center">
                                     {service.name}
                                 </h3>
-                                <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 h-10 sm:h-12 mb-1 sm:mb-2">
+                                <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 h-10 sm:h-12 mb-1 sm:mb-2 py-1">
                                     {service.desc}
                                 </p>
                                 <div className="flex justify-between items-center mt-auto mb-2 w-full">
