@@ -107,15 +107,23 @@ const MouseKeyboard = () => {
                                 <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 h-10 sm:h-12 mb-1 sm:mb-2">
                                     {service.desc}
                                 </p>
-                                <p className="font-semibold text-sm sm:text-base text-primary mt-auto mb-1 sm:mb-2">
-                                    {service.price}
-                                </p>
-                                <div className="card-actions mt-auto">
+                                <div className="flex justify-between items-center mt-auto mb-2 w-full">
+                                    <span className="text-sm sm:text-base font-semibold text-green-600">{service.price}</span>
+                                    <span className="text-xs sm:text-sm text-gray-500">⏱️ 30-60m</span>
+                                </div>
+                                
+                                <div className="flex gap-2 w-full mt-2">
                                     <button 
                                         onClick={() => handleBookNow(service.name)}
-                                        className="btn btn-sm btn-primary w-full text-xs sm:text-sm h-8 min-h-8"
+                                        className="btn btn-primary btn-sm flex-1 text-xs sm:text-sm h-8 min-h-8"
                                     >
                                         Book Now
+                                    </button>
+                                    <button 
+                                        onClick={handleGetDiagnosis}
+                                        className="btn btn-outline btn-sm text-xs sm:text-sm h-8 min-h-8"
+                                    >
+                                        Diagnose
                                     </button>
                                 </div>
                             </div>
