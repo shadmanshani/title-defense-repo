@@ -1,0 +1,45 @@
+// Instructions to manually update Booking.jsx
+// Since automated editing is failing due to file encoding issues, please manually make these changes:
+
+// 1. ADD THESE IMPORTS at the top (after line 2):
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../Context/AuthContext';
+import { createOrder } from '../../utils/orderDB';
+
+// 2. ADD useAuth hook (after line 5, inside the component):
+const { user } = useAuth();
+
+// 3. REPLACE the handleSubmitBooking function (lines 105-115) with:
+const handleSubmitBooking = async () => {
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+        const newBookingId = 'BK' + Date.now().toString().slice(-6);
+        setBookingId(newBookingId);
+        
+        // Save order to localStorage
+        const orderData = {
+            ...bookingData,
+            bookingId: newBookingId
+        };
+        createOrder(orderData, user);
+        
+        // Show success toast
+        toast.success('🎉 Booking confirmed! You can track your order now.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+        
+        setBookingConfirmed(true);
+        setIsSubmitting(false);
+    }, 2000);
+};
+
+// 4. ADD ToastContainer before the closing </div> at the end (before line 550):
+<ToastContainer />

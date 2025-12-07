@@ -220,7 +220,7 @@ const Navbar = () => {
                     className="btn bg-white border-none shadow-none text-xl font-bold tracking-tight text-gray-500 cursor-pointer"
                     onClick={() => navigate('/')}
                 >
-                    eSoLuTiOn
+                    Repair Before Replace
                 </a>
             </div>
 

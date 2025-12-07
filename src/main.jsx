@@ -12,6 +12,7 @@ import {
   UNSAFE_useScrollRestoration as useScrollRestoration,
 } from "react-router-dom";
 import Root from './Components/Root/Root';
+import ProtectedRoute from './Components/Root/ProtectedRoute';
 import Home from './Components/Pages/Home';
 import Services from './Components/Pages/Services';
 import Location from './Components/Pages/Location';
@@ -31,7 +32,7 @@ import { AuthProvider } from './Components/Context/AuthContext';
 function ScrollToTop() {
   const { pathname } = useLocation();
   const navigationType = useNavigationType();
-  
+
   useEffect(() => {
     // Scroll to top when the pathname changes and it's not a back/forward navigation
     if (navigationType === 'PUSH') {
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/location',
-        element: <Location></Location>
+        element: <ProtectedRoute><Location /></ProtectedRoute>
       },
       {
         path: '/diagnosis',
@@ -65,11 +66,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/booking',
-        element: <Booking></Booking>
+        element: <ProtectedRoute><Booking /></ProtectedRoute>
       },
       {
         path: '/track',
-        element: <Track></Track>
+        element: <ProtectedRoute><Track /></ProtectedRoute>
       },
       {
         path: '/services/mobile',

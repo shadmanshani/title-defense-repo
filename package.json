@@ -1,5 +1,6 @@
 {
-  "name": "defense-project",
+  "name": "repair-before-replace",
+  "description": "A clean, modern, and user-friendly electronics repair booking platform.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -22,6 +23,7 @@
     "react-icons": "^5.5.0",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.7.1",
+    "react-toastify": "^11.0.5",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
