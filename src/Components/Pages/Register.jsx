@@ -39,7 +39,7 @@ const Register = () => {
 			newErrors.name = 'Name is required';
 		}
 
-		// Email validation (ordered)
+		// Email validation (ordered, same as Login)
 		if (!formData.email) {
 			newErrors.email = 'Email is required';
 		} else if (!formData.email.includes('@')) {
