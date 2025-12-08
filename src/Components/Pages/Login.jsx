@@ -33,10 +33,13 @@ const Login = () => {
 	const validateForm = () => {
 		const newErrors = {};
 
+		// Email validation (ordered)
 		if (!formData.email) {
 			newErrors.email = 'Email is required';
-		} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-			newErrors.email = 'Email address is invalid';
+		} else if (!formData.email.includes('@')) {
+			newErrors.email = 'Email must contain @';
+		} else if (!/\S+@\S+\.(com|bd|edu)$/.test(formData.email)) {
+			newErrors.email = 'Email domain must end with .com, .bd, or .edu';
 		}
 
 		// Password validation rules
@@ -119,6 +122,7 @@ const Login = () => {
 								value={formData.email}
 								onChange={handleChange}
 							/>
+							{/* Show only the first error message for email */}
 							{errors.email && (
 								<p className="mt-1 text-sm text-error">{errors.email}</p>
 							)}
