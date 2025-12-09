@@ -202,28 +202,6 @@ const Booking = () => {
 	return (
 		<div className="min-h-screen bg-blue-50 dark:bg-gray-900 pt-20">
 			<div className="container mx-auto px-4 py-8">
-				{/* Show last booking details if available */}
-				{lastBooking && (
-					<div className="max-w-2xl mx-auto mb-8">
-						<div className="card bg-base-100 shadow-lg border border-primary">
-							<div className="card-body">
-								<h2 className="card-title text-xl text-primary mb-2">Last Booking Details</h2>
-								<p><strong>Booking ID:</strong> {lastBooking.bookingId}</p>
-								<p><strong>Service:</strong> {services.find(s => s.id === lastBooking.service)?.name}</p>
-								<p><strong>Device:</strong> {lastBooking.device}</p>
-								<p><strong>Issue:</strong> {lastBooking.issue}</p>
-								<p><strong>Date & Time:</strong> {lastBooking.selectedDate} at {lastBooking.selectedTime}</p>
-								<p><strong>Pickup:</strong> {lastBooking.pickupOption === 'pickup' ? 'Home Pickup' : 'Drop-off at Center'}</p>
-								<p><strong>Name:</strong> {lastBooking.customerInfo?.name}</p>
-								<p><strong>Phone:</strong> {lastBooking.customerInfo?.phone}</p>
-								{lastBooking.customerInfo?.email && <p><strong>Email:</strong> {lastBooking.customerInfo.email}</p>}
-								{lastBooking.customerInfo?.address && <p><strong>Address:</strong> {lastBooking.customerInfo.address}</p>}
-								{lastBooking.notes && <p><strong>Notes:</strong> {lastBooking.notes}</p>}
-							</div>
-						</div>
-					</div>
-				)}
-
 				{/* Header */}
 				<div className="text-center mb-8">
 					<h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -262,8 +240,8 @@ const Booking = () => {
 												<div
 													key={service.id}
 													className={`card cursor-pointer transition-all hover:scale-105 ${bookingData.service === service.id
-															? 'bg-primary text-primary-content'
-															: 'bg-base-200 hover:bg-base-300'
+														? 'bg-primary text-primary-content'
+														: 'bg-base-200 hover:bg-base-300'
 														}`}
 													onClick={() => handleServiceSelect(service.id)}
 												>
@@ -303,8 +281,8 @@ const Booking = () => {
 													<button
 														key={issue}
 														className={`btn btn-sm ${bookingData.issue === issue
-																? 'btn-primary'
-																: 'btn-outline'
+															? 'btn-primary'
+															: 'btn-outline'
 															}`}
 														onClick={() => handleInputChange('issue', issue)}
 													>
@@ -339,8 +317,8 @@ const Booking = () => {
 												<button
 													key={dateObj.date}
 													className={`btn btn-sm ${bookingData.selectedDate === dateObj.date
-															? 'btn-primary'
-															: 'btn-outline'
+														? 'btn-primary'
+														: 'btn-outline'
 														}`}
 													onClick={() => handleInputChange('selectedDate', dateObj.date)}
 												>
@@ -361,8 +339,8 @@ const Booking = () => {
 													<button
 														key={time}
 														className={`btn btn-sm ${bookingData.selectedTime === time
-																? 'btn-primary'
-																: 'btn-outline'
+															? 'btn-primary'
+															: 'btn-outline'
 															}`}
 														onClick={() => handleInputChange('selectedTime', time)}
 													>
@@ -382,8 +360,8 @@ const Booking = () => {
 											<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 												<div
 													className={`card cursor-pointer transition-all ${bookingData.pickupOption === 'drop-off'
-															? 'bg-primary text-primary-content'
-															: 'bg-base-200 hover:bg-base-300'
+														? 'bg-primary text-primary-content'
+														: 'bg-base-200 hover:bg-base-300'
 														}`}
 													onClick={() => handleInputChange('pickupOption', 'drop-off')}
 												>
@@ -395,8 +373,8 @@ const Booking = () => {
 												</div>
 												<div
 													className={`card cursor-pointer transition-all ${bookingData.pickupOption === 'pickup'
-															? 'bg-primary text-primary-content'
-															: 'bg-base-200 hover:bg-base-300'
+														? 'bg-primary text-primary-content'
+														: 'bg-base-200 hover:bg-base-300'
 														}`}
 													onClick={() => handleInputChange('pickupOption', 'pickup')}
 												>
